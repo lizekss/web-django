@@ -5,6 +5,12 @@ This is a simple Django project that includes two apps: `store` and `order`.
 ## Run the Development Server
    
 ```python manage.py runserver```
+
+## Admin Authentication
+```
+  user: lizekss
+  password: unchainedddd
+```
    
 ## Access the Application
 
