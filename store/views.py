@@ -9,13 +9,11 @@ def product_list(request):
     data = []
     for product in products:
         categories = product.categories.all()
-        categories_list = [{'id': cat.id, 'name': cat.name}
-                           for cat in categories]
         data.append({
             'id': product.id,
             'name': product.name,
             'price': str(product.price),
-            'categories': categories_list,
+            'categories': [cat.name for cat in categories],
             'image': product.image.url if product.image else None
         })
     return JsonResponse(data, safe=False)
