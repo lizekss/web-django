@@ -9,12 +9,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def get_full_path(self):
-        """
-        Returns the full path of the category, including all parent categories.
-        """
+    def category_tree(self):
         if self.parent:
-            return f"{self.parent.get_full_path()} > {self.name}"
+            return f"{self.parent.category_tree()} -> {self.name}"
         return self.name
 
 

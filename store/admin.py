@@ -4,7 +4,7 @@ from store.models import Category, Product
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent', 'get_full_path')
+    list_display = ('name', 'parent', 'category_tree')
     search_fields = ('name',)
 
 
