@@ -15,7 +15,8 @@ def product_list(request):
             'id': product.id,
             'name': product.name,
             'price': str(product.price),
-            'categories': categories_list
+            'categories': categories_list,
+            'image': product.image.url if product.image else None
         })
     return JsonResponse(data, safe=False)
 
