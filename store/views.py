@@ -24,12 +24,17 @@ def product_detail(request):
 
 
 def category_list(request):
-    categories = Category.objects.all()
-    data = []
-    for category in categories:
-        data.append({
-            'id': category.id,
-            'name': category.name,
-            'parent': category.parent.name if category.parent else None
-        })
-    return JsonResponse(data, safe=False)
+    top_level_categories = Category.objects.filter(parent__isnull=True)
+    return render(request, 'store/category_list.html', {'categories': top_level_categories})
+
+
+def category_detail(request, category_id):
+    category = Category.objects.get(id=category_id)
+
+    # Get all subcategories including the current category
+    subcategories = category.get_descendants(include_self=True)
+
+    # Get all products in this category and its subcategories
+    products = Product.objects.filter(categories__in=subcategories).distinct()
+
+    return render(request, 'store/category_detail.html', {'category': category, 'products': products})

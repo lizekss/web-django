@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }} - Products</title>
+ </head>
 <body>
-$END$
+     <h1>Products in {{ category.name }}</h1>
+     <ul>
+         {% for product in products %}
+             <li>{{ product.name }} - ${{ product.price }}</li>
+         {% endfor %}
+     </ul>
+     <a href="{% url 'category_list' %}">Back to Categories</a>
 </body>
 </html>
