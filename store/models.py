@@ -1,17 +1,12 @@
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 
-
-class Category(models.Model):
+class Category(MPTTModel):
     name = models.CharField(max_length=100)
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
-        return self.name
-
-    def category_tree(self):
-        if self.parent:
-            return f"{self.parent.category_tree()} -> {self.name}"
         return self.name
 
 
