@@ -8,7 +8,10 @@
      <h1>Products in {{ category.name }}</h1>
      <ul>
          {% for product in products %}
-             <li>{{ product.name }} - ${{ product.price }}</li>
+             <li>
+                 {{ product.name }} - ${{ product.price }}
+                 (Stock: {{ product.quantity }} units, Total Value: ${{ product.total_stock_value }})
+             </li>
          {% endfor %}
      </ul>
      <a href="{% url 'category_list' %}">Back to Categories</a>

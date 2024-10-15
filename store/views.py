@@ -1,3 +1,4 @@
+from django.db.models import ExpressionWrapper, DecimalField, F
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
@@ -31,10 +32,14 @@ def category_list(request):
 def category_detail(request, category_id):
     category = Category.objects.get(id=category_id)
 
-    # Get all subcategories including the current category
     subcategories = category.get_descendants(include_self=True)
 
-    # Get all products in this category and its subcategories
-    products = Product.objects.filter(categories__in=subcategories).distinct()
+    products = Product.objects.filter(categories__in=subcategories).distinct().annotate(
+           total_stock_value=ExpressionWrapper(
+               F('price') * F('quantity'),
+               output_field=DecimalField(max_digits=20, decimal_places=2)
+           )
+       )
+
 
     return render(request, 'store/category_detail.html', {'category': category, 'products': products})
