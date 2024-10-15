@@ -6,7 +6,7 @@ from store.models import Product, Category
 
 
 def product_list(request):
-    products = Product.objects.all()
+    products = Product.objects.prefetch_related('categories')
     data = []
     for product in products:
         categories = product.categories.all()
@@ -21,8 +21,7 @@ def product_list(request):
 
 
 def product_detail(request, product_id):
-    product = get_object_or_404(
-        Product.objects.prefetch_related('categories'), id=product_id)
+    product = get_object_or_404(Product.objects, id=product_id)
     categories = product.categories.all()
 
     return render(request, 'store/product_detail.html', {'product': product, 'categories': categories})
