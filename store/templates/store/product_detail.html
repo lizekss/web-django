@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>{{ product.name }} - Details</title>
+</head>
+<body>
+   <h1>{{ product.name }}</h1>
+   <p>Description: {{ product.description }}</p>
+   <p>Price: ${{ product.price }}</p>
+   <p>Quantity in Stock: {{ product.quantity }}</p>
+{% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
+{% else %}
+    <img src="/media/products/default.jpg" alt="Default Image" style="max-width: 300px;">
+{% endif %}
+   <a href="{% url 'category_detail' product.categories.first.id %}"><p>Back to Category</p></a>
+</body>
+</html>

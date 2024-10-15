@@ -1,5 +1,5 @@
 from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 
 from store.models import Product, Category
@@ -21,7 +21,8 @@ def product_list(request):
 
 
 def product_detail(request, product_id):
-    return HttpResponse("This is the product detail.")
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'store/product_detail.html', {'product': product})
 
 
 def category_list(request):
