@@ -9,7 +9,7 @@
      <ul>
          {% for product in products %}
              <li>
-                 {{ product.name }} - ${{ product.price }}
+                 <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a> - ${{ product.price }}
                  (Stock: {{ product.quantity }} units, Total Value: ${{ product.total_stock_value }})
              </li>
          {% endfor %}

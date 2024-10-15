@@ -20,7 +20,7 @@ def product_list(request):
     return JsonResponse(data, safe=False)
 
 
-def product_detail(request):
+def product_detail(request, product_id):
     return HttpResponse("This is the product detail.")
 
 
