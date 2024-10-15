@@ -21,8 +21,11 @@ def product_list(request):
 
 
 def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    return render(request, 'store/product_detail.html', {'product': product})
+    product = get_object_or_404(
+        Product.objects.prefetch_related('categories'), id=product_id)
+    categories = product.categories.all()
+
+    return render(request, 'store/product_detail.html', {'product': product, 'categories': categories})
 
 
 def category_list(request):
@@ -31,7 +34,7 @@ def category_list(request):
 
 
 def category_detail(request, category_id):
-    category = Category.objects.get(id=category_id)
+    category = get_object_or_404(Category.objects, id=category_id)
 
     subcategories = category.get_descendants(include_self=True)
 
