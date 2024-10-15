@@ -1,4 +1,4 @@
-from django.db.models import ExpressionWrapper, DecimalField, F
+from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
@@ -35,11 +35,22 @@ def category_detail(request, category_id):
     subcategories = category.get_descendants(include_self=True)
 
     products = Product.objects.filter(categories__in=subcategories).distinct().annotate(
-           total_stock_value=ExpressionWrapper(
-               F('price') * F('quantity'),
-               output_field=DecimalField(max_digits=20, decimal_places=2)
-           )
-       )
+        total_stock_value=ExpressionWrapper(
+            F('price') * F('quantity'),
+            output_field=DecimalField(max_digits=20, decimal_places=2)
+        )
+    )
 
+    stats = products.aggregate(
+        max_price=Max('price'),
+        min_price=Min('price'),
+        avg_price=Avg('price'),
+        total_value=Sum(
+            ExpressionWrapper(F('price') * F('quantity'), output_field=DecimalField(max_digits=20, decimal_places=2)))
+    )
 
-    return render(request, 'store/category_detail.html', {'category': category, 'products': products})
+    return render(request, 'store/category_detail.html', {
+        'category': category,
+        'products': products,
+        'stats': stats
+    })

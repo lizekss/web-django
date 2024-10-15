@@ -14,6 +14,13 @@
              </li>
          {% endfor %}
      </ul>
+     <h2>Statistics</h2>
+       <ul>
+           <li>Price of Most Expensive Product: ${{ stats.max_price }}</li>
+           <li>Price of Cheapest Product: ${{ stats.min_price }}</li>
+           <li>Average Product Price: ${{ stats.avg_price|floatformat:2 }}</li>
+           <li>Total Value of All Products: ${{ stats.total_value }}</li>
+       </ul>
      <a href="{% url 'category_list' %}">Back to Categories</a>
 </body>
 </html>
