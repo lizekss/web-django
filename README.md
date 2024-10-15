@@ -18,7 +18,7 @@ The default configuration is localhost:8000. Replace with your server/port.
    - Admin Interface: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
    - Store App: [http://127.0.0.1:8000/store/products/](http://127.0.0.1:8000/store/products/)
    - Order App: [http://127.0.0.1:8000/order/orders/](http://127.0.0.1:8000/order/orders/)
-   - Categories: [http://127.0.0.1:8000/store/category/](http://127.0.0.1:8000/store/categories/)
+   - Categories: [http://127.0.0.1:8000/store/category/](http://127.0.0.1:8000/store/category/)
 
 ## Basic Structure / Files Edited
 - `myproject/`: Main project directory.
