@@ -13,8 +13,8 @@ class MyUserAdmin(UserAdmin):
     ordering = ('email',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal Info', {
+        ('Personal Information', {
          'fields': ('first_name', 'last_name', 'date_of_birth')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active',
+        ('User Permissions', {'fields': ('is_staff', 'is_active',
          'is_superuser', 'groups', 'user_permissions')}),
     )
