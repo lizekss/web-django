@@ -8,8 +8,8 @@ This is a simple Django project that includes two apps: `store` and `order`.
 
 ## Admin Authentication
 ```
-  user: lizekss
-  password: unchainedddd
+  email: lizi@abc.com
+  password: unchainedd
 ```
    
 ## Access the Application
@@ -28,6 +28,10 @@ The default configuration is localhost:8000. Replace with your server/port.
   - `views.py`: Views for displaying product information.
   - `urls.py`: URL configuration for the store app.
   - `models.py`: Models to manage data for the store app.
+  - `admin.py`: Custom ModelAdmin classes.
 - `order/`: Order app for managing customer orders.
   - `views.py`: Views for displaying order information.
   - `urls.py`: URL configuration for the order app.
+- `user/`: User app for managing custom users. 
+  - `models.py`: Custom user models.
+  - `admin.py`: Custom ModelAdmin class.
