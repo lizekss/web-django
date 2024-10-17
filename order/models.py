@@ -1,3 +1,7 @@
 from django.db import models
+from user.models import MyUser  # Import your custom user model
 
-# Create your models here.
+
+class UserCart(models.Model):
+    user = models.OneToOneField(
+        MyUser, on_delete=models.CASCADE, related_name='cart')
