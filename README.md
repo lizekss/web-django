@@ -11,7 +11,6 @@ This is a simple Django project that includes two apps: `store` and `order`.
   email: lizi@abc.com
   password: unchainedd
 ```
-
 ## Access the Application
 The default configuration is localhost:8000. Replace with your server/port.
 - Admin Interface: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
