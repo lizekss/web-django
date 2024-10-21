@@ -11,15 +11,17 @@ This is a simple Django project that includes two apps: `store` and `order`.
   email: lizi@abc.com
   password: unchainedd
 ```
-   
+
 ## Access the Application
-
 The default configuration is localhost:8000. Replace with your server/port.
-   - Admin Interface: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
-   - Store App: [http://127.0.0.1:8000/store/products/](http://127.0.0.1:8000/store/products/)
-   - Order App: [http://127.0.0.1:8000/order/orders/](http://127.0.0.1:8000/order/orders/)
-   - Categories: [http://127.0.0.1:8000/store/category/](http://127.0.0.1:8000/store/category/)
-
+- Admin Interface: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
+### Pages Using Templates
+- Store Homepage: [http://127.0.0.1:8000/store](http://127.0.0.1:8000/store)
+- Listing Page: [http://127.0.0.1:8000/store/category/<slug:slug>](http://127.0.0.1:8000/store/category/all)
+- Product Detail: [http://127.0.0.1:8000/store/product/<slug:slug>](http://127.0.0.1:8000/store/product/any)
+- Cart: [http://127.0.0.1:8000/order/cart](http://127.0.0.1:8000/order/cart)
+- Checkout: [http://127.0.0.1:8000/order/checkout](http://127.0.0.1:8000/order/checkout)
+- Contact: [http://127.0.0.1:8000/store/contact](http://127.0.0.1:8000/store/contact)
 ## Basic Structure / Files Edited
 - `myproject/`: Main project directory.
   - `settings.py`: Project settings.
