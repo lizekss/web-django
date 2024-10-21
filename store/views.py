@@ -20,16 +20,9 @@ def product_list(request):
     return JsonResponse(data, safe=False)
 
 
-def product_detail(request, product_id):
-    product = get_object_or_404(Product.objects, id=product_id)
-    categories = product.categories.all()
-
-    return render(request, 'store/product_detail.html', {'product': product, 'categories': categories})
-
-
 def category_list(request):
     top_level_categories = Category.objects.filter(parent__isnull=True)
-    return render(request, 'store/category_list.html', {'categories': top_level_categories})
+    return render(request, 'old/category_list.html', {'categories': top_level_categories})
 
 
 def category_detail(request, category_id):
@@ -52,8 +45,24 @@ def category_detail(request, category_id):
             ExpressionWrapper(F('price') * F('quantity'), output_field=DecimalField(max_digits=20, decimal_places=2)))
     )
 
-    return render(request, 'store/category_detail.html', {
+    return render(request, 'old/category_detail.html', {
         'category': category,
         'products': products,
         'stats': stats
     })
+
+
+def category_listing(request, slug):
+    return render(request, 'store/shop.html', {'title': 'Shop'})
+
+
+def contact(request):
+    return render(request, 'store/contact.html', {'title': 'Contact'})
+
+
+def product_detail(request, slug):
+    return render(request, 'store/shop-detail.html', {'title': 'Shop Detail'})
+
+
+def index(request):
+    return render(request, 'store/index.html', {'title': 'Home'})
