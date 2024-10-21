@@ -1,9 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
 from .models import MyUser
 
 
 @admin.register(MyUser)
-class MyUserAdmin(admin.ModelAdmin):
+class MyUserAdmin(UserAdmin):
     model = MyUser
     list_display = ('email', 'first_name', 'last_name',
                     'date_of_birth', 'is_staff', 'is_active')
@@ -16,4 +18,7 @@ class MyUserAdmin(admin.ModelAdmin):
          'fields': ('first_name', 'last_name', 'date_of_birth')}),
         ('User Permissions', {'fields': ('is_staff', 'is_active',
          'is_superuser', 'groups', 'user_permissions')}),
+    )
+    add_fieldsets = (
+        (None, {'fields': ('email', 'password1', 'password2', 'date_of_birth')}),
     )
