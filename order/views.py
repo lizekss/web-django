@@ -8,3 +8,11 @@ def order_list(request):
 
 def order_detail(request):
     return HttpResponse("This is the order detail.")
+
+
+def cart(request):
+    return render(request, 'cart.html', {'title': 'Cart'})
+
+
+def checkout(request):
+    return render(request, 'checkout.html', {'title': 'Check Out'})

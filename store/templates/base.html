@@ -68,8 +68,8 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.html" class="dropdown-item">Cart</a>
-                                    <a href="chackout.html" class="dropdown-item">Checkout</a>
+                                    <a href="{% url 'cart' %}" class="dropdown-item">Cart</a>
+                                    <a href="{% url 'checkout' %}" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
                             <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
@@ -125,10 +125,8 @@
         <!-- Single Page Header End -->
 
 
-        <!-- Fruits Shop Start-->
         {% block content %}
         {% endblock %}
-        <!-- Fruits Shop End-->
 
 
         <!-- Footer Start -->
