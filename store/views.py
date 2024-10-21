@@ -53,16 +53,16 @@ def category_detail(request, category_id):
 
 
 def category_listing(request, slug):
-    return render(request, 'store/shop.html', {'title': 'Shop'})
+    return render(request, 'shop.html', {'title': 'Shop'})
 
 
 def contact(request):
-    return render(request, 'store/contact.html', {'title': 'Contact'})
+    return render(request, 'contact.html', {'title': 'Contact'})
 
 
 def product_detail(request, slug):
-    return render(request, 'store/shop-detail.html', {'title': 'Shop Detail'})
+    return render(request, 'shop-detail.html', {'title': 'Shop Detail'})
 
 
 def index(request):
-    return render(request, 'store/index.html', {'title': 'Home'})
+    return render(request, 'index.html', {'title': 'Home'})
