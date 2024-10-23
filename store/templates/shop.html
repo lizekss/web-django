@@ -192,6 +192,9 @@
                             {% for product in products %}
                             <div class="col-md-6 col-lg-6 col-xl-4 d-flex">
                                 <div class="rounded position-relative fruite-item flex-column">
+                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                         style="top: 10px; left: 10px;">Fruits
+                                    </div>
                                     <div class="fruite-img">
                                         <img src="{{ product.image.crop.306x214 }}"
                                              class="img-fluid w-100 rounded-top" alt="{{ product.name }}"/>
@@ -210,14 +213,21 @@
                             {% endfor %}
                             <div class="col-12">
                                 <div class="pagination d-flex justify-content-center mt-5">
-                                    <a href="#" class="rounded">&laquo;</a>
-                                    <a href="#" class="active rounded">1</a>
-                                    <a href="#" class="rounded">2</a>
-                                    <a href="#" class="rounded">3</a>
-                                    <a href="#" class="rounded">4</a>
-                                    <a href="#" class="rounded">5</a>
-                                    <a href="#" class="rounded">6</a>
-                                    <a href="#" class="rounded">&raquo;</a>
+                                    {% if products.has_previous %}
+                                    <a href="?page={{ products.previous_page_number }}" class="rounded">&laquo;</a>
+                                    {% endif %}
+
+                                    {% for num in products.paginator.page_range %}
+                                    {% if products.number == num %}
+                                    <a href="?page={{ num }}" class="active rounded">{{ num }}</a>
+                                    {% else %}
+                                    <a href="?page={{ num }}" class="rounded">{{ num }}</a>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    {% if products.has_next %}
+                                    <a href="?page={{ products.next_page_number }}" class="rounded">&raquo;</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

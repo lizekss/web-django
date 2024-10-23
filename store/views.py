@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
@@ -54,7 +55,17 @@ def category_detail(request, category_id):
 
 def category_listing(request, slug):
     products = Product.objects.prefetch_related('categories')
-    return render(request, 'shop.html', {'title': 'Shop', 'products': products})
+
+    paginator = Paginator(products, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'title': 'Shop',
+        'products': page_obj,
+    }
+
+    return render(request, 'shop.html', context)
 
 
 def contact(request):
