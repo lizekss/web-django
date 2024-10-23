@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum
+from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum, Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 
@@ -54,7 +54,13 @@ def category_detail(request, category_id):
 
 
 def category_listing(request, slug):
+    query = request.GET.get('q')
     products = Product.objects.prefetch_related('categories')
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
 
     paginator = Paginator(products, 2)
     page_number = request.GET.get('page')
