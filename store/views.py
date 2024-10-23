@@ -53,7 +53,8 @@ def category_detail(request, category_id):
 
 
 def category_listing(request, slug):
-    return render(request, 'shop.html', {'title': 'Shop'})
+    products = Product.objects.prefetch_related('categories')
+    return render(request, 'shop.html', {'title': 'Shop', 'products': products})
 
 
 def contact(request):

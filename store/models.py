@@ -1,5 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from versatileimagefield.fields import VersatileImageField
+from versatileimagefield.placeholder import OnStoragePlaceholderImage
 
 
 class Category(MPTTModel):
@@ -17,7 +19,9 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
     categories = models.ManyToManyField(Category, related_name='products')
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    image = VersatileImageField(upload_to='products/', blank=True, null=True, placeholder_image=OnStoragePlaceholderImage(
+        path='products/default.jpg'
+    ))
 
     def __str__(self):
         return self.name
