@@ -8,6 +8,7 @@ class Category(MPTTModel):
     name = models.CharField(max_length=100)
     parent = TreeForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.name

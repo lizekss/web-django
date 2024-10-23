@@ -53,7 +53,7 @@ def category_detail(request, category_id):
     })
 
 
-def category_listing(request, slug):
+def category_listing(request, slug=None):
     query = request.GET.get('q')
     products = Product.objects.prefetch_related('categories')
 
@@ -62,6 +62,14 @@ def category_listing(request, slug):
             Q(name__icontains=query) | Q(description__icontains=query)
         )
 
+    categories_list = Category.objects.filter(parent__isnull=True)
+
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+        subcategories = category.get_descendants(include_self=True)
+        categories_list = subcategories.exclude(id=category.id)
+        products = products.filter(categories__in=subcategories).distinct()
+
     paginator = Paginator(products, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -69,6 +77,7 @@ def category_listing(request, slug):
     context = {
         'title': 'Shop',
         'products': page_obj,
+        'categories': categories_list,
     }
 
     return render(request, 'shop.html', context)
