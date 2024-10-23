@@ -70,7 +70,7 @@ def category_listing(request, slug=None):
         categories_list = subcategories.exclude(id=category.id)
         products = products.filter(categories__in=subcategories).distinct()
 
-    paginator = Paginator(products, 2)
+    paginator = Paginator(products, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
