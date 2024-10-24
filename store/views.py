@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum, Q
@@ -58,24 +59,32 @@ def category_detail(request, category_id):
 @login_required
 def add_to_cart(request):
     product_id = request.POST.get('product_id')
-    # Default quantity to 1 if not provided
-    quantity = int(request.POST.get('quantity', 1))
+
     product = get_object_or_404(Product, id=product_id)
+
+    in_stock = product.quantity >= 1
+    if not in_stock:
+        messages.error(
+            request, f"Only {product.quantity} items available in stock.")
+        return
 
     cart, created = UserCart.objects.get_or_create(user=request.user)
     cart_item, created = CartItem.objects.get_or_create(
         cart=cart, product=product)
 
     if not created:
-        cart_item.quantity += quantity
-    else:
-        cart_item.quantity = quantity
+        in_stock = cart_item.quantity + 1 > product.quantity
+        if not in_stock:
+            messages.error(
+                request, f"Only {product.quantity} items available in stock.")
+            return
+        cart_item.quantity += 1
 
     cart_item.save()
 
 
 def category_listing(request, slug=None):
-    products = Product.objects.prefetch_related('categories')
+    products = Product.objects.prefetch_related('categories').order_by('name')
     categories_list = Category.objects.filter(parent__isnull=True)
 
     if request.method == 'POST':
