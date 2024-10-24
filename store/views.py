@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 
 from order.models import UserCart, CartItem
-from store.models import Product, Category
+from store.models import Product, Category, Tag
 
 
 def product_list(request):
@@ -73,7 +73,7 @@ def add_to_cart(request):
         cart=cart, product=product)
 
     if not created:
-        in_stock = cart_item.quantity + 1 > product.quantity
+        in_stock = cart_item.quantity + 1 >= product.quantity
         if not in_stock:
             messages.error(
                 request, f"Only {product.quantity} items available in stock.")
@@ -100,12 +100,17 @@ def filter_products(products, request):
     elif sorting == 'price_desc':
         products = products.order_by('-price')
 
+    tag = request.GET.get('tag')
+    if tag:
+        products = products.filter(tag_id=tag)
+
     return products
 
 
 def category_listing(request, slug=None):
     products = Product.objects.prefetch_related('categories').order_by('name')
     categories_list = Category.objects.filter(parent__isnull=True)
+    tags = Tag.objects.all()
 
     if request.method == 'POST':
         add_to_cart(request)
@@ -126,6 +131,7 @@ def category_listing(request, slug=None):
         'title': 'Shop',
         'products': page_obj,
         'categories': categories_list,
+        'tags': tags,
     }
 
     return render(request, 'shop.html', context)
