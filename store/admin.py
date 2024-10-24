@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from store.models import Category, Product
+from store.models import Category, Product, Tag
 
 
 @admin.register(Product)
@@ -27,3 +27,6 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
     prepopulated_fields = {'slug': ('name', 'parent')}
+
+
+admin.site.register(Tag)
