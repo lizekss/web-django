@@ -83,6 +83,20 @@ def add_to_cart(request):
     cart_item.save()
 
 
+def filter_products(products, request):
+    query = request.GET.get('q')
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+
+    price_range = request.GET.get('priceFilter')
+    if price_range:
+        products = products.filter(price__lte=price_range)
+
+    return products
+
+
 def category_listing(request, slug=None):
     products = Product.objects.prefetch_related('categories').order_by('name')
     categories_list = Category.objects.filter(parent__isnull=True)
@@ -90,11 +104,7 @@ def category_listing(request, slug=None):
     if request.method == 'POST':
         add_to_cart(request)
     else:
-        query = request.GET.get('q')
-        if query:
-            products = products.filter(
-                Q(name__icontains=query) | Q(description__icontains=query)
-            )
+        products = filter_products(products, request)
 
     if slug:
         category = get_object_or_404(Category, slug=slug)
