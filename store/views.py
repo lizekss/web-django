@@ -94,6 +94,12 @@ def filter_products(products, request):
     if price_range:
         products = products.filter(price__lte=price_range)
 
+    sorting = request.GET.get('sorting')
+    if sorting == 'price_asc':
+        products = products.order_by('price')
+    elif sorting == 'price_desc':
+        products = products.order_by('-price')
+
     return products
 
 
