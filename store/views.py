@@ -11,6 +11,12 @@ from order.models import UserCart, CartItem
 from store.models import Product, Category, Tag
 
 
+'''
+TODO: display alert on out of stock / login required?
+sorting on filtered data?
+selected input on refresh?
+'''
+
 class AddToCartForm(forms.Form):
     product_id = forms.ModelChoiceField(queryset=Product.objects.all())
 
