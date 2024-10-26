@@ -1,140 +1,130 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum, Q
 from django.shortcuts import render, get_object_or_404, redirect
+from django import forms
 from django.http import HttpResponse, JsonResponse
+from django.views import View
+from django.views.generic import ListView
 
 from order.models import UserCart, CartItem
 from store.models import Product, Category, Tag
 
 
-def product_list(request):
-    products = Product.objects.prefetch_related('categories')
-    data = []
-    for product in products:
-        categories = product.categories.all()
-        data.append({
-            'id': product.id,
-            'name': product.name,
-            'price': str(product.price),
-            'categories': [cat.name for cat in categories],
-            'image': product.image.url if product.image else None
-        })
-    return JsonResponse(data, safe=False)
+class AddToCartForm(forms.Form):
+    product_id = forms.ModelChoiceField(queryset=Product.objects.all())
 
 
-def category_list(request):
-    top_level_categories = Category.objects.filter(parent__isnull=True)
-    return render(request, 'old/category_list.html', {'categories': top_level_categories})
-
-
-def category_detail(request, category_id):
-    category = get_object_or_404(Category.objects, id=category_id)
-
-    subcategories = category.get_descendants(include_self=True)
-
-    products = Product.objects.filter(categories__in=subcategories).distinct().annotate(
-        total_stock_value=ExpressionWrapper(
-            F('price') * F('quantity'),
-            output_field=DecimalField(max_digits=20, decimal_places=2)
-        )
-    )
-
-    stats = products.aggregate(
-        max_price=Max('price'),
-        min_price=Min('price'),
-        avg_price=Avg('price'),
-        total_value=Sum(
-            ExpressionWrapper(F('price') * F('quantity'), output_field=DecimalField(max_digits=20, decimal_places=2)))
-    )
-
-    return render(request, 'old/category_detail.html', {
-        'category': category,
-        'products': products,
-        'stats': stats
-    })
-
-
-@login_required
-def add_to_cart(request):
-    product_id = request.POST.get('product_id')
-
-    product = get_object_or_404(Product, id=product_id)
-
-    in_stock = product.quantity >= 1
-    if not in_stock:
+class AddToCartView(LoginRequiredMixin, View):
+    def _err_out_of_stock(self, request, product):
         messages.error(
             request, f"Only {product.quantity} items available in stock.")
-        return
 
-    cart, created = UserCart.objects.get_or_create(user=request.user)
-    cart_item, created = CartItem.objects.get_or_create(
-        cart=cart, product=product)
+    def post(self, request, *args, **kwargs):
+        form = AddToCartForm(request.POST)
+        if form.is_valid():
+            product = form.cleaned_data['product_id']
 
-    if not created:
-        in_stock = cart_item.quantity + 1 >= product.quantity
-        if not in_stock:
-            messages.error(
-                request, f"Only {product.quantity} items available in stock.")
-            return
-        cart_item.quantity += 1
+            in_stock = product.quantity >= 1
+            if not in_stock:
+                self._err_out_of_stock(request, product)
+                return
 
-    cart_item.save()
+            cart, created = UserCart.objects.get_or_create(user=request.user)
+            cart_item, created = CartItem.objects.get_or_create(
+                cart=cart, product=product)
 
+            if not created:
+                in_stock = cart_item.quantity + 1 >= product.quantity
+                if not in_stock:
+                    self._err_out_of_stock(request, product)
+                    return
+                cart_item.quantity += 1
 
-def filter_products(products, request):
-    query = request.GET.get('q')
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        )
-
-    price_range = request.GET.get('priceFilter')
-    if price_range:
-        products = products.filter(price__lte=price_range)
-
-    sorting = request.GET.get('sorting')
-    if sorting == 'price_asc':
-        products = products.order_by('price')
-    elif sorting == 'price_desc':
-        products = products.order_by('-price')
-
-    tag = request.GET.get('tag')
-    if tag:
-        products = products.filter(tag_id=tag)
-
-    return products
+            cart_item.save()
 
 
-def category_listing(request, slug=None):
-    products = Product.objects.prefetch_related('categories').order_by('name')
-    categories_list = Category.objects.filter(parent__isnull=True)
-    tags = Tag.objects.all()
+class CategoryListView(ListView):
+    """Display and filter products by category"""
+    model = Product
+    template_name = 'shop.html'
+    context_object_name = 'products'
+    paginate_by = 3
 
-    if request.method == 'POST':
-        add_to_cart(request)
-    else:
-        products = filter_products(products, request)
+    def _filter_products(self, products):
+        """Helper method to filter products based on request parameters"""
+        query = self.request.GET.get('q')
+        if query:
+            products = products.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query)
+            )
 
-    if slug:
-        category = get_object_or_404(Category, slug=slug)
-        subcategories = category.get_descendants(include_self=True)
-        categories_list = subcategories.exclude(id=category.id)
-        products = products.filter(categories__in=subcategories).distinct()
+        price_range = self.request.GET.get('priceFilter')
+        if price_range:
+            products = products.filter(price__lte=price_range)
 
-    paginator = Paginator(products, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+        sorting = self.request.GET.get('sorting')
+        if sorting == 'price_asc':
+            products = products.order_by('price')
+        elif sorting == 'price_desc':
+            products = products.order_by('-price')
 
-    context = {
-        'title': 'Shop',
-        'products': page_obj,
-        'categories': categories_list,
-        'tags': tags,
-    }
+        tag = self.request.GET.get('tag')
+        if tag:
+            products = products.filter(tag_id=tag)
 
-    return render(request, 'shop.html', context)
+        return products
+
+    def get_queryset(self):
+        # Base queryset with optimization
+        queryset = Product.objects.prefetch_related(
+            'categories'
+        ).select_related(
+            'tag'
+        ).order_by('name')
+
+        # Apply filters
+        queryset = self._filter_products(queryset)
+
+        # Filter by category if slug is provided
+        slug = self.kwargs.get('slug')
+        if slug:
+            category = get_object_or_404(Category, slug=slug)
+            subcategories = category.get_descendants(include_self=True)
+            queryset = queryset.filter(
+                categories__in=subcategories
+            ).distinct()
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add additional context
+        context['title'] = 'Shop'
+        context['tags'] = Tag.objects.all()
+
+        # Handle categories based on slug
+        slug = self.kwargs.get('slug')
+        if slug:
+            category = get_object_or_404(Category, slug=slug)
+            subcategories = category.get_descendants(include_self=True)
+            context['categories'] = subcategories.exclude(id=category.id)
+        else:
+            context['categories'] = Category.objects.filter(
+                parent__isnull=True)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """Handle POST requests for adding items to cart"""
+        product_id = request.POST.get('product_id')
+        if product_id:
+            AddToCartView.as_view()(request)
+        return self.get(request, *args, **kwargs)
 
 
 def contact(request):
