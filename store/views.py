@@ -1,13 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import ExpressionWrapper, DecimalField, F, Max, Min, Avg, Sum, Q
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django import forms
-from django.http import HttpResponse, JsonResponse
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView, DetailView
 
 from order.models import UserCart, CartItem
 from store.models import Product, Category, Tag
@@ -127,13 +125,40 @@ class CategoryListView(ListView):
         return self.get(request, *args, **kwargs)
 
 
-def contact(request):
-    return render(request, 'contact.html', {'title': 'Contact'})
+class HomeView(TemplateView):
+    """Display the home page"""
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Home'
+        return context
 
 
-def product_detail(request, slug):
-    return render(request, 'shop-detail.html', {'title': 'Shop Detail'})
+class ContactView(TemplateView):
+    """Display the contact page"""
+    template_name = 'contact.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Contact'
+        return context
 
 
-def index(request):
-    return render(request, 'index.html', {'title': 'Home'})
+class ProductDetailView(DetailView):
+    """Display detailed information about a specific product"""
+    model = Product
+    template_name = 'shop-detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Shop Detail'
+        return context
+
+    def get_queryset(self):
+        """Optimize the queryset with related data"""
+        return super().get_queryset().prefetch_related(
+            'categories',
+            'tag'
+        )
