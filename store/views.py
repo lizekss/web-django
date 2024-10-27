@@ -8,6 +8,7 @@ from django.views import View
 from django.views.generic import ListView, TemplateView, DetailView
 
 from order.models import UserCart, CartItem
+from order.views import AddToCartView
 from store.models import Product, Category, Tag
 
 
@@ -16,39 +17,6 @@ TODO: display alert on out of stock / login required?
 sorting on filtered data?
 selected input on refresh?
 '''
-
-
-class AddToCartForm(forms.Form):
-    product_id = forms.ModelChoiceField(queryset=Product.objects.all())
-
-
-class AddToCartView(LoginRequiredMixin, View):
-    def _err_out_of_stock(self, request, product):
-        messages.error(
-            request, f"Only {product.quantity} items available in stock.")
-
-    def post(self, request, *args, **kwargs):
-        form = AddToCartForm(request.POST)
-        if form.is_valid():
-            product = form.cleaned_data['product_id']
-
-            in_stock = product.quantity >= 1
-            if not in_stock:
-                self._err_out_of_stock(request, product)
-                return
-
-            cart, created = UserCart.objects.get_or_create(user=request.user)
-            cart_item, created = CartItem.objects.get_or_create(
-                cart=cart, product=product)
-
-            if not created:
-                in_stock = cart_item.quantity + 1 >= product.quantity
-                if not in_stock:
-                    self._err_out_of_stock(request, product)
-                    return
-                cart_item.quantity += 1
-
-            cart_item.save()
 
 
 class FilterProductsMixin:
@@ -111,6 +79,11 @@ class CategoryListView(FilterProductsMixin, ListView):
         context['title'] = 'Shop'
         context['tags'] = Tag.objects.all()
 
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
+        context['existing_params'] = query_params.urlencode()
+
         # Handle categories based on slug
         slug = self.kwargs.get('slug')
         if slug:
@@ -132,6 +105,7 @@ class CategoryListView(FilterProductsMixin, ListView):
 
 
 class TitleView(TemplateView):
+    """ Basic static view with just the title in context """
     title = ''
 
     def get_context_data(self, **kwargs):
@@ -150,9 +124,9 @@ class ContactView(TitleView):
     title = 'Contact'
 
 
-# This should actually extend DetailView, but for now it is static
 class ProductDetailView(TitleView):
-    # for DetailView:
+    """ This should actually extend DetailView, but for now it is static.
+     attributes for DetailView: """
     # context_object_name = 'product'
     # model = Product
     template_name = 'shop-detail.html'
