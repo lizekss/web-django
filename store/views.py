@@ -17,6 +17,7 @@ sorting on filtered data?
 selected input on refresh?
 '''
 
+
 class AddToCartForm(forms.Form):
     product_id = forms.ModelChoiceField(queryset=Product.objects.all())
 
@@ -50,37 +51,36 @@ class AddToCartView(LoginRequiredMixin, View):
             cart_item.save()
 
 
-class CategoryListView(ListView):
-    """Display and filter products by category"""
-    model = Product
-    template_name = 'shop.html'
-    context_object_name = 'products'
-    paginate_by = 3
-
-    def _filter_products(self, products):
-        """Helper method to filter products based on request parameters"""
-        query = self.request.GET.get('q')
+class FilterProductsMixin:
+    def filter_products(self, products, request):
+        query = request.GET.get('q')
         if query:
             products = products.filter(
-                Q(name__icontains=query) |
-                Q(description__icontains=query)
+                Q(name__icontains=query) | Q(description__icontains=query)
             )
 
-        price_range = self.request.GET.get('priceFilter')
+        price_range = request.GET.get('priceFilter')
         if price_range:
             products = products.filter(price__lte=price_range)
 
-        sorting = self.request.GET.get('sorting')
+        sorting = request.GET.get('sorting')
         if sorting == 'price_asc':
             products = products.order_by('price')
         elif sorting == 'price_desc':
             products = products.order_by('-price')
 
-        tag = self.request.GET.get('tag')
+        tag = request.GET.get('tag')
         if tag:
             products = products.filter(tag_id=tag)
 
         return products
+
+
+class CategoryListView(FilterProductsMixin, ListView):
+    model = Product
+    template_name = 'shop.html'
+    context_object_name = 'products'
+    paginate_by = 3
 
     def get_queryset(self):
         # Base queryset with optimization
@@ -91,7 +91,7 @@ class CategoryListView(ListView):
         ).order_by('name')
 
         # Apply filters
-        queryset = self._filter_products(queryset)
+        queryset = self.filter_products(queryset, self.request)
 
         # Filter by category if slug is provided
         slug = self.kwargs.get('slug')
@@ -131,40 +131,35 @@ class CategoryListView(ListView):
         return self.get(request, *args, **kwargs)
 
 
-class HomeView(TemplateView):
-    """Display the home page"""
+class TitleView(TemplateView):
+    title = ''
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+
+class HomeView(TitleView):
     template_name = 'index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Home'
-        return context
+    title = 'Home'
 
 
-class ContactView(TemplateView):
-    """Display the contact page"""
+class ContactView(TitleView):
     template_name = 'contact.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Contact'
-        return context
+    title = 'Contact'
 
 
-class ProductDetailView(DetailView):
-    """Display detailed information about a specific product"""
-    model = Product
+# This should actually extend DetailView, but for now it is static
+class ProductDetailView(TitleView):
+    # for DetailView:
+    # context_object_name = 'product'
+    # model = Product
     template_name = 'shop-detail.html'
-    context_object_name = 'product'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Shop Detail'
-        return context
+    title = 'Shop Detail'
 
     def get_queryset(self):
         """Optimize the queryset with related data"""
         return super().get_queryset().prefetch_related(
             'categories',
-            'tag'
         )
