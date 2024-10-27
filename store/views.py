@@ -1,13 +1,8 @@
-from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
-from django import forms
-from django.views import View
-from django.views.generic import ListView, TemplateView, DetailView
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, TemplateView
 
-from order.models import UserCart, CartItem
+
 from order.views import AddToCartView
 from store.models import Product, Category, Tag
 
