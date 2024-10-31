@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
@@ -157,6 +158,6 @@ class RegisterView(FormView):
         return super().form_valid(form)
 
 
-def logout_view(request):
-    logout(request)
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+class CustomLogoutView(LogoutView):
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER', '/')
