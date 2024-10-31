@@ -29,6 +29,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=25, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    last_active = models.DateTimeField(null=True, blank=True)
 
     objects = MyUserManager()
 
