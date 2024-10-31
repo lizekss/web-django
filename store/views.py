@@ -2,10 +2,13 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, TemplateView
 
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
 
 from order.views import AddToCartView
 from store.models import Product, Category, Tag
-
+from user.views import CustomUserCreationForm
 
 '''
 TODO: display alert on out of stock / login required?
@@ -132,3 +135,13 @@ class ProductDetailView(TitleView):
         return super().get_queryset().prefetch_related(
             'categories',
         )
+
+
+class RegisterView(FormView):
+    template_name = 'register.html'
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

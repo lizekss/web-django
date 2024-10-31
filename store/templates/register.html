@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block single-header %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid register py-5 pt-5 mt-5">
+    <div class="container py-5 d-flex">
+        <div class="p-5 bg-light rounded">
+            <h2>Register</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn border border-secondary px-4 py-3 rounded-pill text-primary" type="submit">Register
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
