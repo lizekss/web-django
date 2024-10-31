@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -8,7 +9,8 @@ from order.models import UserCart, CartItem
 from store.models import Product
 
 
-class CartView(TemplateView):
+class CartView(LoginRequiredMixin, TemplateView):
+    login_url = '/store/login/'
     template_name = 'cart.html'
     title = 'Cart'
 
@@ -18,7 +20,8 @@ class CartView(TemplateView):
         return context
 
 
-class CheckoutView(TemplateView):
+class CheckoutView(LoginRequiredMixin, TemplateView):
+    login_url = '/store/login/'
     template_name = 'checkout.html'
     title = 'Checkout'
 
@@ -33,6 +36,8 @@ class AddToCartForm(forms.Form):
 
 
 class AddToCartView(LoginRequiredMixin, View):
+    login_url = '/store/login/'
+
     def _err_out_of_stock(self, request, product):
         messages.error(
             request, f"Only {product.quantity} items available in stock.")
@@ -45,7 +50,7 @@ class AddToCartView(LoginRequiredMixin, View):
             in_stock = product.quantity >= 1
             if not in_stock:
                 self._err_out_of_stock(request, product)
-                return
+                return redirect(request.META.get('HTTP_REFERER', '/'))
 
             cart, created = UserCart.objects.get_or_create(user=request.user)
             cart_item, created = CartItem.objects.get_or_create(
@@ -55,10 +60,11 @@ class AddToCartView(LoginRequiredMixin, View):
                 in_stock = cart_item.quantity + 1 >= product.quantity
                 if not in_stock:
                     self._err_out_of_stock(request, product)
-                    return
+                    return redirect(request.META.get('HTTP_REFERER', '/'))
                 cart_item.quantity += 1
 
             cart_item.save()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 class RemoveFromCartForm(forms.Form):
@@ -67,6 +73,8 @@ class RemoveFromCartForm(forms.Form):
 
 
 class RemoveFromCartView(LoginRequiredMixin, View):
+    login_url = '/store/login/'
+
     def post(self, request, *args, **kwargs):
         form = RemoveFromCartForm(request.POST)
         if form.is_valid():
@@ -94,5 +102,8 @@ class RemoveFromCartView(LoginRequiredMixin, View):
 
             except (UserCart.DoesNotExist, CartItem.DoesNotExist):
                 messages.error(request, "Item not found in cart.")
+
+            finally:
+                return redirect(request.META.get('HTTP_REFERER', '/'))
 
         messages.error(request, "Invalid request.")
