@@ -1,9 +1,13 @@
+from urllib.parse import urlencode
+
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import FormView
 
 from order.views import AddToCartView
@@ -98,7 +102,13 @@ class CategoryListView(FilterProductsMixin, ListView):
         """Handle POST requests for adding items to cart"""
         product_id = request.POST.get('product_id')
         if product_id:
-            AddToCartView.as_view()(request)
+            # manually for now, because @login_required did not behave as expected inside the class
+            if not request.user.is_authenticated:
+                login_url = reverse('login')
+                params = urlencode({'next': request.get_full_path()})
+                return redirect(f'{login_url}?{params}')
+            else:
+                AddToCartView.as_view()(request)
         return self.get(request, *args, **kwargs)
 
 
@@ -145,3 +155,8 @@ class RegisterView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
