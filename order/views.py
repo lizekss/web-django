@@ -57,7 +57,7 @@ class AddToCartView(LoginRequiredMixin, View):
                 cart=cart, product=product)
 
             if not created:
-                in_stock = cart_item.quantity + 1 >= product.quantity
+                in_stock = product.quantity >= cart_item.quantity + 1
                 if not in_stock:
                     self._err_out_of_stock(request, product)
                     return redirect(request.META.get('HTTP_REFERER', '/'))
