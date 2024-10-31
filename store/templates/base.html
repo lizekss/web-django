@@ -71,10 +71,11 @@
                     <a href="{% url 'all_products' %}" class="nav-item nav-link">Shop</a>
                     <a href="{% url 'product_detail' pk=1 %}" class="nav-item nav-link">Shop Detail</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                            <a href="{% url 'cart' %}" class="dropdown-item">Cart</a>
-                            <a href="{% url 'checkout' %}" class="dropdown-item">Checkout</a>
+                            {% for category in all_categories %}
+                            <a href="{% url 'category_listing' slug=category.slug %}" class="dropdown-item">{{ category.name }}</a>
+                            {% endfor %}
                         </div>
                     </div>
                     <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
@@ -92,7 +93,7 @@
                         <i class="fa fa-user fa-2x"></i>
                     </a>
                     <a href="{% url 'logout' %}" class="my-auto me-4">
-                         <i class="fa fa-sign-out-alt fa-2x"></i>
+                        <i class="fa fa-sign-out-alt fa-2x"></i>
                     </a>
                 </div>
             </div>
