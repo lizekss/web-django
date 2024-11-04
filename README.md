@@ -21,6 +21,8 @@ The default configuration is localhost:8000. Replace with your server/port.
 - Cart: [http://127.0.0.1:8000/order/cart](http://127.0.0.1:8000/order/cart)
 - Checkout: [http://127.0.0.1:8000/order/checkout](http://127.0.0.1:8000/order/checkout)
 - Contact: [http://127.0.0.1:8000/store/contact](http://127.0.0.1:8000/store/contact)
+- Register: [http://127.0.0.1:8000/user/register](http://127.0.0.1:8000/user/register)
+- Login: [http://127.0.0.1:8000/user/login](http://127.0.0.1:8000/user/login)
 ## Basic Structure / Files Edited
 - `myproject/`: Main project directory.
   - `settings.py`: Project settings.
