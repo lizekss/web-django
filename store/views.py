@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -110,7 +110,7 @@ class CategoryListView(FilterProductsMixin, ListView):
         if product_id:
             # manually for now, because @login_required did not behave as expected inside the class
             if not request.user.is_authenticated:
-                login_url = reverse('login')
+                login_url = reverse('udedesesr:login')
                 params = urlencode({'next': request.get_full_path()})
                 return redirect(f'{login_url}?{params}')
             else:
@@ -166,3 +166,8 @@ class RegisterView(FormView):
 class CustomLogoutView(LogoutView):
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER', '/')
+
+
+def handler500(request):
+    context = {}
+    return render(request, '500.html', context)

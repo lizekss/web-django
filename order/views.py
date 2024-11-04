@@ -10,7 +10,7 @@ from store.models import Product
 
 
 class CartView(LoginRequiredMixin, TemplateView):
-    login_url = '/store/login/'
+    login_url = '/user/login/'
     template_name = 'cart.html'
     title = 'Cart'
 
@@ -21,7 +21,7 @@ class CartView(LoginRequiredMixin, TemplateView):
 
 
 class CheckoutView(LoginRequiredMixin, TemplateView):
-    login_url = '/store/login/'
+    login_url = '/user/login/'
     template_name = 'checkout.html'
     title = 'Checkout'
 
@@ -36,7 +36,7 @@ class AddToCartForm(forms.Form):
 
 
 class AddToCartView(LoginRequiredMixin, View):
-    login_url = '/store/login/'
+    login_url = '/user/login/'
 
     def _err_out_of_stock(self, request, product):
         messages.error(
@@ -73,7 +73,7 @@ class RemoveFromCartForm(forms.Form):
 
 
 class RemoveFromCartView(LoginRequiredMixin, View):
-    login_url = '/store/login/'
+    login_url = '/user/login/'
 
     def post(self, request, *args, **kwargs):
         form = RemoveFromCartForm(request.POST)

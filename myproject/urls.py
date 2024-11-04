@@ -20,10 +20,13 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 
+import store
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('store/', include('store.urls')),
     path('order/', include('order.urls')),
+    path('user/', include('user.urls', namespace='user')),
 ]
 
 if settings.DEBUG:
@@ -36,3 +39,6 @@ urlpatterns += [
     re_path(r'^static/(?P<path>.*)$', serve,
             {'document_root': settings.STATIC_ROOT}),
 ]
+
+
+handler500 = 'store.views.handler500'
