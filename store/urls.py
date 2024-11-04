@@ -3,8 +3,7 @@ from django.urls import path, include
 from django.conf.urls import handler500
 
 from . import views
-from .views import CategoryListView, HomeView, ProductDetailView, ContactView, RegisterView, \
-    CustomLogoutView
+from .views import CategoryListView, HomeView, ProductDetailView, ContactView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='index'),

@@ -153,21 +153,6 @@ class ProductDetailView(TitleView):
         )
 
 
-class RegisterView(FormView):
-    template_name = 'register.html'
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('index')
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-
-class CustomLogoutView(LogoutView):
-    def get_success_url(self):
-        return self.request.META.get('HTTP_REFERER', '/')
-
-
 ''' Error handlers '''
 
 
