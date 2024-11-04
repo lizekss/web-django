@@ -110,7 +110,7 @@ class CategoryListView(FilterProductsMixin, ListView):
         if product_id:
             # manually for now, because @login_required did not behave as expected inside the class
             if not request.user.is_authenticated:
-                login_url = reverse('udedesesr:login')
+                login_url = reverse('user:login')
                 params = urlencode({'next': request.get_full_path()})
                 return redirect(f'{login_url}?{params}')
             else:
@@ -170,4 +170,4 @@ class CustomLogoutView(LogoutView):
 
 def handler500(request):
     context = {}
-    return render(request, '500.html', context)
+    return render(request, '500.html', status=500, context=context)
