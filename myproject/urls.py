@@ -41,4 +41,5 @@ urlpatterns += [
 ]
 
 
+handler404 = 'store.views.handler404'
 handler500 = 'store.views.handler500'
