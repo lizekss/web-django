@@ -1,0 +1,176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-08 16:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: order/models.py:18
+#, python-format
+msgid "Cart of %s"
+msgstr "%s-ის კალათა"
+
+#: order/models.py:28
+#, python-format
+msgid "%f of %s in %s's cart"
+msgstr "%f %s %s-ის კალათაში"
+
+#: order/views.py:17
+msgid "Cart"
+msgstr "კალათა"
+
+#: order/views.py:28
+msgid "Checkout"
+msgstr "ყიდვის დასრულება"
+
+#: order/views.py:45
+#, python-format
+msgid "Only %s items available in stock."
+msgstr "მარაგშია მხოლოდ %s რაოდენობა."
+
+#: order/views.py:93
+#, python-format
+msgid "%s removed from cart."
+msgstr "%s ამოშლილია კალათიდან."
+
+#: order/views.py:99
+#, python-format
+msgid "Removed one %s from cart."
+msgstr "ერთი %s ამოშლილია კალათიდან."
+
+#: order/views.py:103
+#, python-format
+msgid "Last %s removed from cart."
+msgstr "უკანასკნელი %s ამოშლილია კალათიდან."
+
+#: order/views.py:106
+msgid "Item not found in cart."
+msgstr "პროდუქტი არ მოიძებნა კალათაში."
+
+#: order/views.py:111
+msgid "Invalid request."
+msgstr "არასწორი მოთხოვნა."
+
+#: store/templates/base.html:52
+msgid "123 Street, New York"
+msgstr "123 ქუჩა, ნიუ-იორკი"
+
+#: store/templates/base.html:55
+msgid "Email@Example.com"
+msgstr ""
+
+#: store/templates/base.html:60
+msgid "Privacy Policy"
+msgstr "კონფიდენციალურობის პოლიტიკა"
+
+#: store/templates/base.html:63
+msgid "Terms of Use"
+msgstr "გამოყენების წესები"
+
+#: store/templates/base.html:66
+msgid "Sales and Refunds"
+msgstr "გაყიდვები და დაბრუნებები"
+
+#: store/templates/base.html:74 store/templates/base.html:164
+msgid "Fruitables"
+msgstr ""
+
+#: store/templates/base.html:81 store/views.py:134
+msgid "Home"
+msgstr "მთავარი გვერდი"
+
+#: store/templates/base.html:82 store/views.py:88
+msgid "Shop"
+msgstr "პროდუქცია"
+
+#: store/templates/base.html:83 store/views.py:148
+msgid "Shop Detail"
+msgstr "დეტალური გვერდი"
+
+#: store/templates/base.html:85
+msgid "Categories"
+msgstr "კატეგორიები"
+
+#: store/templates/base.html:94 store/templates/base.html:202
+#: store/views.py:139
+msgid "Contact"
+msgstr "კონტაქტი"
+
+#: store/templates/base.html:165
+msgid "Fresh products"
+msgstr "ახალი პროდუქტები"
+
+#: store/templates/base.html:171
+msgid "Your Email"
+msgstr "თქვენი ელ.ფოსტა"
+
+#: store/templates/base.html:174
+msgid "Subscribe Now"
+msgstr "გამოწერა"
+
+#: store/templates/base.html:195
+msgid "Why People Like us!"
+msgstr "რატომ მოგვწონს ხალხს!"
+
+#: store/templates/base.html:196
+msgid ""
+"typesetting, remaining essentially unchanged. It was popularised in the "
+"1960s with the like Aldus PageMaker including of Lorem Ipsum."
+msgstr "ტიპოგრაფია, რომელიც ძირითადად უცვლელი დარჩა. იგი პოპულარული გახდა 1960-იან წლებში Aldus PageMaker-ით Lorem Ipsum-ის გამოყენებით."
+
+#: store/templates/base.html:197
+msgid "Read More"
+msgstr "იხილეთ მეტი"
+
+#: store/templates/base.html:203
+msgid "Address:"
+msgstr "მისამართი:"
+
+#: store/templates/base.html:204
+msgid "Email:"
+msgstr "ელფოსტა:"
+
+#: store/templates/base.html:205
+msgid "Phone:"
+msgstr "ტელეფონი:"
+
+#: store/templates/base.html:206
+msgid "Payment Accepted"
+msgstr "გადახდა მიღებულია"
+
+#: store/templates/fruit-item.html:15
+msgid "GEL / kg"
+msgstr "ლარი / კგ"
+
+#: store/templates/fruit-item.html:20
+msgid "Add to Cart"
+msgstr "კალათაში დამატება"
+
+#: user/models.py:9
+msgid "Email field is required"
+msgstr "ელ.ფოსტა აუცილებელი ველია"
+
+#: user/models.py:11
+msgid "Date of Birth field is required"
+msgstr "დაბადების თარიღი აუცილებელი ველია"
+
+#: user/models.py:45
+msgid "User"
+msgstr "მომხმარებელი"
+
+#: user/models.py:46
+msgid "Users"
+msgstr "მომხმარებლები"
