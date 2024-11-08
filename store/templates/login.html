@@ -4,10 +4,11 @@
 {% endblock %}
 
 {% block content %}
+{% load i18n %}
 <div class="container-fluid register py-5 pt-5 mt-5">
     <div class="container py-5">
         <div class="p-5 bg-light rounded">
-            <h2>Login</h2>
+            <h2>{% trans "Login" %}</h2>
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}

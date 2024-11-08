@@ -1,14 +1,16 @@
 {% extends 'error.html' %}
 
+{% load i18n %}
+
 {% block status_code %}
 505
 {% endblock %}
 
 {% block status_name %}
-Internal Server Error
+{% trans "Internal Server Error" %}
 {% endblock %}
 
 {% block message %}
-Oops, the server was unable to complete your request.
-Try to refresh this page or contact us if the problem persists.
+{% trans "Oops, the server was unable to complete your request." %}
+{% trans "Try to refresh this page or contact us if the problem persists." %}
 {% endblock %}

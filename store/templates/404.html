@@ -1,14 +1,16 @@
 {% extends 'error.html' %}
 
+{% load i18n %}
+
 {% block status_code %}
 404
 {% endblock %}
 
 {% block status_name %}
-Page Not Found
+{% trans "Page Not Found" %}
 {% endblock %}
 
 {% block message %}
-We’re sorry, the page you have looked for does not exist in our website! Maybe go to our
-home page or try to use a search?
+{% trans "We’re sorry, the page you have looked for does not exist in our website!" %}
+{% trans "Maybe go to our home page or try to use a search?" %}
 {% endblock %}

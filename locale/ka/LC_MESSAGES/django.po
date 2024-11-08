@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-08 16:17+0000\n"
+"POT-Creation-Date: 2024-11-08 18:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,6 +64,31 @@ msgstr "პროდუქტი არ მოიძებნა კალათ
 msgid "Invalid request."
 msgstr "არასწორი მოთხოვნა."
 
+#: store/templates/404.html:10
+msgid "Page Not Found"
+msgstr "გვერდი არ მოიძებნა"
+
+#: store/templates/404.html:14
+msgid ""
+"We’re sorry, the page you have looked for does not exist in our website!"
+msgstr "ბოდიშს გიხდით, აღნიშნული გვერდი ვერ მოიძებნა."
+
+#: store/templates/404.html:15
+msgid "Maybe go to our home page or try to use a search?"
+msgstr "სცადეთ მთავარ გვერდზე დაბრუნება ან ძიება"
+
+#: store/templates/500.html:10
+msgid "Internal Server Error"
+msgstr "შეცდომა სერვერის მხრიდან"
+
+#: store/templates/500.html:14
+msgid "Oops, the server was unable to complete your request."
+msgstr "ბოდიშს გიხდით, სერვერმა თქვენი მოთხოვნა ვერ შეასრულა"
+
+#: store/templates/500.html:15
+msgid "Try to refresh this page or contact us if the problem persists."
+msgstr "სცადეთ გვერდის დარეფრეშება ან დაგვიკავშირდით"
+
 #: store/templates/base.html:52
 msgid "123 Street, New York"
 msgstr "123 ქუჩა, ნიუ-იორკი"
@@ -100,7 +125,7 @@ msgstr "პროდუქცია"
 msgid "Shop Detail"
 msgstr "დეტალური გვერდი"
 
-#: store/templates/base.html:85
+#: store/templates/base.html:85 store/templates/shop.html:38
 msgid "Categories"
 msgstr "კატეგორიები"
 
@@ -123,13 +148,13 @@ msgstr "გამოწერა"
 
 #: store/templates/base.html:195
 msgid "Why People Like us!"
-msgstr "რატომ მოგვწონს ხალხს!"
+msgstr "რატომ მოვწონვართ ხალხს!"
 
 #: store/templates/base.html:196
 msgid ""
 "typesetting, remaining essentially unchanged. It was popularised in the "
 "1960s with the like Aldus PageMaker including of Lorem Ipsum."
-msgstr "ტიპოგრაფია, რომელიც ძირითადად უცვლელი დარჩა. იგი პოპულარული გახდა 1960-იან წლებში Aldus PageMaker-ით Lorem Ipsum-ის გამოყენებით."
+msgstr ""
 
 #: store/templates/base.html:197
 msgid "Read More"
@@ -141,7 +166,7 @@ msgstr "მისამართი:"
 
 #: store/templates/base.html:204
 msgid "Email:"
-msgstr "ელფოსტა:"
+msgstr "ელ. ფოსტა:"
 
 #: store/templates/base.html:205
 msgid "Phone:"
@@ -151,6 +176,10 @@ msgstr "ტელეფონი:"
 msgid "Payment Accepted"
 msgstr "გადახდა მიღებულია"
 
+#: store/templates/error.html:16
+msgid "Go Back to Home"
+msgstr "მთავარ გვერდზე დაბრუნება"
+
 #: store/templates/fruit-item.html:15
 msgid "GEL / kg"
 msgstr "ლარი / კგ"
@@ -158,6 +187,48 @@ msgstr "ლარი / კგ"
 #: store/templates/fruit-item.html:20
 msgid "Add to Cart"
 msgstr "კალათაში დამატება"
+
+#: store/templates/login.html:11
+msgid "Login"
+msgstr "ავტორიზაცია"
+
+#: store/templates/register.html:11
+msgid "Register"
+msgstr "რეგისტრაცია"
+
+#: store/templates/shop.html:11
+#, fuzzy
+#| msgid "Fresh products"
+msgid "Fresh fruits shop"
+msgstr "ახალი პროდუქტები"
+
+#: store/templates/shop.html:22
+msgid "Sort by:"
+msgstr "დალაგება:"
+
+#: store/templates/shop.html:25
+msgid "Default"
+msgstr "ნაგულისხმევი"
+
+#: store/templates/shop.html:26
+msgid "Price Asc."
+msgstr "ფასი ზრდ."
+
+#: store/templates/shop.html:27
+msgid "Price Desc."
+msgstr "ფასი კლებ."
+
+#: store/templates/shop.html:54
+msgid "Price"
+msgstr "ფასი"
+
+#: store/templates/shop.html:64
+msgid "Tags"
+msgstr "თეგები"
+
+#: store/templates/shop.html:77
+msgid "Filter"
+msgstr "გაფილტვრა"
 
 #: user/models.py:9
 msgid "Email field is required"
