@@ -43,7 +43,7 @@
 
 <!-- Navbar start -->
 {% load i18n %}
-{% cache 600 navbar %}
+{% cache 600 navbar request.LANGUAGE_CODE %}
 <div class="container-fluid fixed-top">
     <div class="container topbar bg-primary d-none d-lg-block">
         <div class="d-flex justify-content-between">
