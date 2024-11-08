@@ -17,6 +17,10 @@ class UserCart(models.Model):
     def __str__(self):
         return _("Cart of %s") % self.user
 
+    class Meta:
+        verbose_name = _('UserCart')
+        verbose_name_plural = _('UserCarts')
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -29,6 +33,10 @@ class CartItem(models.Model):
 
     def get_total_price(self):
         return self.product.price * self.quantity
+
+    class Meta:
+        verbose_name = _('CartItem')
+        verbose_name_plural = _('CartItems')
 
 
 @receiver(post_save, sender=MyUser)

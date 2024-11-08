@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-08 18:13+0000\n"
+"POT-Creation-Date: 2024-11-08 19:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,10 +23,29 @@ msgstr ""
 msgid "Cart of %s"
 msgstr "%s-ის კალათა"
 
-#: order/models.py:28
+#: order/models.py:21
+#, fuzzy
+#| msgid "Cart"
+msgid "UserCart"
+msgstr "კალათა"
+
+msgid "UserCarts"
+msgstr "კალათები"
+
+#: order/models.py:32
 #, python-format
 msgid "%f of %s in %s's cart"
 msgstr "%f %s %s-ის კალათაში"
+
+#: order/models.py:38
+#, fuzzy
+#| msgid "Cart"
+msgid "CartItem"
+msgstr "ნივთი"
+
+#: order/models.py:39
+msgid "CartItems"
+msgstr "ნივთები"
 
 #: order/views.py:17
 msgid "Cart"
@@ -63,6 +82,32 @@ msgstr "პროდუქტი არ მოიძებნა კალათ
 #: order/views.py:111
 msgid "Invalid request."
 msgstr "არასწორი მოთხოვნა."
+
+#: store/models.py:19
+#, fuzzy
+#| msgid "Categories"
+msgid "Category"
+msgstr "კატეგორიები"
+
+#: store/models.py:20 store/templates/base.html:85 store/templates/shop.html:38
+msgid "Categories"
+msgstr "კატეგორიები"
+
+#: store/models.py:30
+msgid "Tag"
+msgstr "თეგი"
+
+#: store/models.py:31 store/templates/shop.html:64
+msgid "Tags"
+msgstr "თეგები"
+
+#: store/models.py:50
+msgid "Product"
+msgstr "პროდუქტი"
+
+#: store/models.py:51
+msgid "Products"
+msgstr "პროდუქტები"
 
 #: store/templates/404.html:10
 msgid "Page Not Found"
@@ -124,10 +169,6 @@ msgstr "პროდუქცია"
 #: store/templates/base.html:83 store/views.py:148
 msgid "Shop Detail"
 msgstr "დეტალური გვერდი"
-
-#: store/templates/base.html:85 store/templates/shop.html:38
-msgid "Categories"
-msgstr "კატეგორიები"
 
 #: store/templates/base.html:94 store/templates/base.html:202
 #: store/views.py:139
@@ -219,10 +260,6 @@ msgstr "ფასი კლებ."
 #: store/templates/shop.html:54
 msgid "Price"
 msgstr "ფასი"
-
-#: store/templates/shop.html:64
-msgid "Tags"
-msgstr "თეგები"
 
 #: store/templates/shop.html:77
 msgid "Filter"
