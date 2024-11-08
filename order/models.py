@@ -5,6 +5,8 @@ from django.dispatch import receiver
 from user.models import MyUser
 from store.models import Product
 
+from django.utils.translation import gettext_lazy as _
+
 
 class UserCart(models.Model):
     user = models.OneToOneField(
@@ -13,7 +15,7 @@ class UserCart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Cart of {self.user}"
+        return _("Cart of %s") % self.user
 
 
 class CartItem(models.Model):
@@ -23,7 +25,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.name} in {self.cart.user}'s cart"
+        return _("%f of %s in %s's cart") % (self.quantity, self.product, self.cart.user)
 
     def get_total_price(self):
         return self.product.price * self.quantity

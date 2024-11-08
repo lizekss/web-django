@@ -1,13 +1,14 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, date_of_birth, password=None, **extra_fields):
         if not email:
-            raise ValueError('Email field is required')
+            raise ValueError(_('Email field is required'))
         if not date_of_birth:
-            raise ValueError('Date of Birth field is required')
+            raise ValueError(_('Date of Birth field is required'))
         email = self.normalize_email(email)
         user = self.model(
             email=email, date_of_birth=date_of_birth, **extra_fields)
@@ -41,5 +42,5 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')

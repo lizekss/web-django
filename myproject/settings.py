@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'versatileimagefield',
     'store',
     'order',
+    'modeltranslation',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,18 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+USE_L10N = True
+
+# Specify the available languages
+LANGUAGES = [
+    ('en', 'English'),
+    ('ka', 'Georgian'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 
 # Static files (CSS, JavaScript, Images)

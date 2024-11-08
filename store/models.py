@@ -3,6 +3,7 @@ from django.db.models import SET_NULL
 from mptt.models import MPTTModel, TreeForeignKey
 from versatileimagefield.fields import VersatileImageField
 from versatileimagefield.placeholder import OnStoragePlaceholderImage
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(MPTTModel):

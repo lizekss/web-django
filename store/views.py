@@ -13,6 +13,7 @@ from django.views.generic import ListView, TemplateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import FormView
+from django.utils.translation import gettext_lazy as _
 
 from order.views import AddToCartView
 from store.models import Product, Category, Tag
@@ -84,7 +85,7 @@ class CategoryListView(FilterProductsMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         # Add additional context
-        context['title'] = 'Shop'
+        context['title'] = _('Shop')
         context['tags'] = Tag.objects.all()
 
         query_params = self.request.GET.copy()
@@ -130,12 +131,12 @@ class TitleView(TemplateView):
 
 class HomeView(TitleView):
     template_name = 'index.html'
-    title = 'Home'
+    title = _('Home')
 
 
 class ContactView(TitleView):
     template_name = 'contact.html'
-    title = 'Contact'
+    title = _('Contact')
 
 
 class ProductDetailView(TitleView):
@@ -144,7 +145,7 @@ class ProductDetailView(TitleView):
     # context_object_name = 'product'
     # model = Product
     template_name = 'shop-detail.html'
-    title = 'Shop Detail'
+    title = _('Shop Detail')
 
     def get_queryset(self):
         """Optimize the queryset with related data"""

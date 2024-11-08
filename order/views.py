@@ -4,6 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import TemplateView
+from django.utils.translation import gettext_lazy as _
+
 
 from order.models import UserCart, CartItem
 from store.models import Product
@@ -12,7 +14,7 @@ from store.models import Product
 class CartView(LoginRequiredMixin, TemplateView):
     login_url = '/user/login/'
     template_name = 'cart.html'
-    title = 'Cart'
+    title = _('Cart')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -23,7 +25,7 @@ class CartView(LoginRequiredMixin, TemplateView):
 class CheckoutView(LoginRequiredMixin, TemplateView):
     login_url = '/user/login/'
     template_name = 'checkout.html'
-    title = 'Checkout'
+    title = _('Checkout')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,7 +42,7 @@ class AddToCartView(LoginRequiredMixin, View):
 
     def _err_out_of_stock(self, request, product):
         messages.error(
-            request, f"Only {product.quantity} items available in stock.")
+            request, _("Only %s items available in stock.") % product.name)
 
     def post(self, request, *args, **kwargs):
         form = AddToCartForm(request.POST)
@@ -88,22 +90,22 @@ class RemoveFromCartView(LoginRequiredMixin, View):
                 if remove_all:
                     cart_item.delete()
                     messages.success(
-                        request, f"{product.name} removed from cart.")
+                        request, _("%s removed from cart.") % product.name)
                 else:
                     if cart_item.quantity > 1:
                         cart_item.quantity -= 1
                         cart_item.save()
                         messages.success(
-                            request, f"Removed one {product.name} from cart.")
+                            request, _("Removed one %s from cart.") % product.name)
                     else:
                         cart_item.delete()
                         messages.success(
-                            request, f"Last {product.name} removed from cart.")
+                            request, _("Last %s removed from cart.") % product.name)
 
             except (UserCart.DoesNotExist, CartItem.DoesNotExist):
-                messages.error(request, "Item not found in cart.")
+                messages.error(request, _("Item not found in cart."))
 
             finally:
                 return redirect(request.META.get('HTTP_REFERER', '/'))
 
-        messages.error(request, "Invalid request.")
+        messages.error(request, _("Invalid request."))
