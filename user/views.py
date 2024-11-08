@@ -25,4 +25,4 @@ class RegisterView(FormView):
 
 class CustomLogoutView(LogoutView):
     def get_success_url(self):
-        return self.request.META.get('HTTP_REFERER', '/')
+        return reverse_lazy('index')
