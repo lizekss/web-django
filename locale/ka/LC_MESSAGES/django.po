@@ -197,10 +197,8 @@ msgid "Register"
 msgstr "რეგისტრაცია"
 
 #: store/templates/shop.html:11
-#, fuzzy
-#| msgid "Fresh products"
 msgid "Fresh fruits shop"
-msgstr "ახალი პროდუქტები"
+msgstr "ხილი და ბოსტნეული"
 
 #: store/templates/shop.html:22
 msgid "Sort by:"
