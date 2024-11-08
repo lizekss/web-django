@@ -107,7 +107,7 @@ msgstr "გამოყენების წესები"
 
 #: store/templates/base.html:66
 msgid "Sales and Refunds"
-msgstr "გაყიდვები და დაბრუნებები"
+msgstr "გაყიდვები და დაბრუნება"
 
 #: store/templates/base.html:74 store/templates/base.html:164
 msgid "Fruitables"
